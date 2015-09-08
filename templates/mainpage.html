@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="content">
+   {% for greeting in greetings %}
+     {% if greeting.author %}
+       {{ greeting.author.email }}
+         {% if user and user.user_id() == greeting.author.identity %}
+           (You)
+         {% endif %}
+           wrote:
+         {% else %}
+           An anonymous person wrote:
+     {% endif %}
+     <div id="concept">
+       <div id="unit"><blockquote>Unit {{ greeting.unit }}</blockquote></div>
+       <div id="title"><blockquote>Title: {{ greeting.title }}</blockquote></div>
+       <div id="description"><blockquote><b>Description: </b>{{ greeting.description }}</blockquote></div>
+     </div>
+   {% endfor %}
+   <br>
+
+   <form action="/sign?notebook_name={{ notebook_name }}" method="post">
+     <b>Unit Number:</b>
+     <div><select name="unit">
+            <option value="1">Unit 1</option>
+            <option value="2">Unit 2</option>
+            <option value="3">Unit 3</option>
+            <option value="4">Unit 4</option>
+            <option value="5">Unit 5</option>
+          </select>
+          <br>
+     <b>Title:</b>
+
+     <div><textarea name="title" rows="1" cols="60"></textarea></div>
+     <b>Description:</b>
+     <div><textarea name="description" rows="3" cols="60"></textarea></div>
+     <div><input type="submit" value="Submit Note"></div>
+   </form>
+
+   <hr>
+
+   <form>Notebook name:
+     <input value="{{ notebook_name }}" name="notebook_name">
+     <input type="submit" value="switch">
+   </form>
+
+   <a href="{{ url|safe }}">{{ url_linktext }}</a>
+
+ </div>
+
+{% endblock %}
